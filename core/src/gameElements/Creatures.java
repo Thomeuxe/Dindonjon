@@ -20,8 +20,11 @@ public abstract class Creatures {
 	public Creatures(int pv, int pa, Texture img){
 		this.pv = pv;
 		this.pa = pa;
+		this.width = 32;
+		this.height = 32;
 		this.orientation = (int) Math.round(Math.random()*4);
 		this.sprite = new Sprite(img);
+		this.sprite.setSize(width, height);
 	}
 	
 	public int attack(){

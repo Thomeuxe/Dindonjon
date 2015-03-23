@@ -10,20 +10,27 @@ public class Level {
 
 	TiledMap map;
 	OrthogonalTiledMapRenderer mapRenderer;
+	TiledMapTileLayer tileLayer;
 	
 	public Level(String file){
 		TiledMap map = new TmxMapLoader().load(file);
-
-		TiledMapTileLayer colisionLayer = (TiledMapTileLayer)map.getLayers().get("collision");
+		tileLayer = (TiledMapTileLayer)map.getLayers().get("collision");
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
-		String wall = colisionLayer.getCell(0, 0).getClass();
-		System.out.println(wall);
+		Cell cell = tileLayer.getCell(1, 1);
+		System.out.println(cell.getTile().getProperties().get("collidable"));
 	}
 
 	public OrthogonalTiledMapRenderer getTiledMapRenderer() {
 		return mapRenderer;
+	}
+	
+	public Cell getCell(int x, int y){
+		Cell cell = tileLayer.getCell(x, y);
+		System.out.println(cell.getTile().getProperties().get("collidable"));
+		
+		return cell;
 	}
 	
 }

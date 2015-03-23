@@ -27,16 +27,20 @@ public class Dindonjon extends Game{
         
 		batch = new SpriteBatch();
 		img = new Texture("dindon.png");
-		//dindon = new Sprite(img);
+		
+        int height = 32*32;
+        int width = 32*32;
 		
 		camera = new OrthographicCamera();
-        camera.setToOrtho(false,w,h);
+        camera.setToOrtho(true,width,height);
         camera.update();
         //Gdx.input.setInputProcessor(this);
         level = new Level("maps/mapTest.tmx");
+        
+        System.out.println(width);
 		
 		dindon = new Player(10 , 5, img , "John");
-		dindon.getSprite().setPosition(w/2 -dindon.getSprite().getWidth()/2, h/2 - dindon.getSprite().getHeight()/2);
+		dindon.getSprite().setPosition(2 * 32, 2*32);
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package com.dindonjon;
 
+import gameElements.Enemy;
+
+import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,6 +18,9 @@ public class Level {
 	OrthogonalTiledMapRenderer mapRenderer;
 	TiledMapTileLayer tileLayer;
 	TiledMapTileLayer metaLayer;
+	
+	private ArrayList<Cell> enemyCell;
+	ArrayList<Enemy> enemies;
 	
 	int startX;
 	int startY;
@@ -30,16 +38,33 @@ public class Level {
 
                 	if(property != null){
                         startX = x;
-                        startY = y;
+                        startY = tileLayer.getHeight()-y;
+                		System.out.println(startX);
+                		System.out.println(startY);
+                    }
+                }
+            }
+        }
+		
+		enemyCell = new ArrayList<TiledMapTileLayer.Cell>();
+		enemies = new ArrayList<Enemy>();
+		
+		for(int x = 0; x < metaLayer.getWidth();x++){
+            for(int y = 0; y < metaLayer.getHeight();y++){
+                Cell cell = metaLayer.getCell(x,y);
+                if(cell != null){
+                	Object property = cell.getTile().getProperties().get("spawn_enemy");
+
+                	if(property != null){
+                		Enemy enemy = new Enemy(10, 1, new Texture("enemy.png"));
+                		enemy.setPos(x, y);
+                		enemies.add(enemy);
                     }
                 }
             }
         }
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
-		
-		Cell cell = tileLayer.getCell(0, 0);
-		//System.out.println(cell.getTile().getProperties().get("collidable"));
 	}
 
 	public OrthogonalTiledMapRenderer getTiledMapRenderer() {
@@ -48,7 +73,6 @@ public class Level {
 	
 	public Cell getCell(int x, int y){
 		Cell cell = tileLayer.getCell(x, y);
-		//System.out.println(cell.getTile().getProperties().get("collidable"));
 		
 		return cell;
 	}
@@ -58,12 +82,20 @@ public class Level {
 	}
 	
 	public boolean isCollidable(int x, int y){
-		Cell cell = tileLayer.getCell(x, y);
+		Cell cell = tileLayer.getCell(x, tileLayer.getHeight()-y);
 		Object property = cell.getTile().getProperties().get("collidable");
 		
 		System.out.println(property);
 		
 		return property != null;
+	}
+	
+	public ArrayList<Cell> getEnemyCell(){
+		return enemyCell;
+	}
+	
+	public ArrayList<Enemy> getEnemy(){
+		return enemies;
 	}
 	
 }

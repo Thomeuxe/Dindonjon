@@ -31,6 +31,10 @@ public abstract class Creatures {
 		this.sprite.setSize(width, height);
 	}
 	
+	public void update(){
+		
+	}
+	
 	public int attack(){
 		double rnd_snd = (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
 		return (int) Math.round(rnd_snd*(this.pa/4)+this.pa);

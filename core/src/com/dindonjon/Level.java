@@ -39,8 +39,6 @@ public class Level {
                 	if(property != null){
                         startX = x;
                         startY = tileLayer.getHeight()-y;
-                		System.out.println(startX);
-                		System.out.println(startY);
                     }
                 }
             }

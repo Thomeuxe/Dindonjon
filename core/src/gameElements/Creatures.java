@@ -9,6 +9,8 @@ public abstract class Creatures {
 	
 	private int pv;
 	
+	private int totalPv;
+	
 	private int pa;
 	
 	private int orientation;
@@ -23,6 +25,7 @@ public abstract class Creatures {
 	
 	public Creatures(int pv, int pa, Texture img){
 		this.pv = pv;
+		this.totalPv = pv;
 		this.pa = pa;
 		this.width = 32;
 		this.height = 32;
@@ -91,6 +94,20 @@ public abstract class Creatures {
 
 	public void setPosY(int posY) {
 		this.posY = posY;
+	}
+	
+	public boolean isDead(){
+		if(this.pv <= 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public void die(){
+		this.getSprite().setAlpha(0);
+		this.posX = -1000;
+		this.posY = -1000;
 	}
 	
 }

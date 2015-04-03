@@ -17,8 +17,7 @@ public class Player extends Creatures {
 	}
 
 	public void move(int x, int y) {
-		this.getSprite().translateX(32*x);
-		this.getSprite().translateY(32*y);
+		
 	}
 	
 }

@@ -50,49 +50,69 @@ public class Dindonjon extends Game{
         
         camera.translate(-w/2+level.startX*32+(player.getSprite().getWidth()/2), -h/2+(level.tileLayer.getHeight()*32-level.startY*32)+(player.getSprite().getHeight()/2));
         player.setPos(level.startX, level.startY);
-        
-        System.out.println(player.getPosX()+"-->"+player.getPosY());
-        
+        level.setPlayer(player);
 	}
 
 	@Override
 	public void render () {
+		
 		Gdx.gl.glClearColor(25/255f, 25/255f, 25/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+            if(level.isEnemy(player.getPosX(), player.getPosY()-1)){
+            	Enemy enemy = level.getEnemy(player.getPosX(), player.getPosY()-1);
+            	enemy.setPv(enemy.getPv()-5);
+            }
+			
 			if(!level.isCollidable(player.getPosX(), player.getPosY()-1)){
 	            camera.translate(0, 32);
 	            player.setPosY(player.getPosY()-1);
 	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move();
+	            	enemy.move(level);
 	            }
 			}
+            
 			player.getSprite().setRotation(90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+        	if(level.isEnemy(player.getPosX()+1, player.getPosY())){
+            	Enemy enemy = level.getEnemy(player.getPosX()+1, player.getPosY());
+            	enemy.setPv(enemy.getPv()-5);
+            }
+        	
 			if(!level.isCollidable(player.getPosX()+1, player.getPosY())){
 	            camera.translate(32, 0);
 	            player.setPosX(player.getPosX()+1);
 	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move();
+	            	enemy.move(level);
 	            }
 			}
 			player.getSprite().setRotation(0);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+        	if(level.isEnemy(player.getPosX(), player.getPosY()+1)){
+            	Enemy enemy = level.getEnemy(player.getPosX(), player.getPosY()+1);
+            	enemy.setPv(enemy.getPv()-5);
+            }
+        	
 			if(!level.isCollidable(player.getPosX(), player.getPosY()+1)){
 	            camera.translate(0, -32);
 	            player.setPosY(player.getPosY()+1);
 	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move();
+	            	enemy.move(level);
 	            }
 			}
 			player.getSprite().setRotation(-90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
+        	if(level.isEnemy(player.getPosX()-1, player.getPosY())){
+            	Enemy enemy = level.getEnemy(player.getPosX()-1, player.getPosY());
+            	enemy.setPv(enemy.getPv()-5);
+            }
+        	
 			if(!level.isCollidable(player.getPosX()-1, player.getPosY())){
 	            camera.translate(-32, 0);
 	            player.setPosX(player.getPosX()-1);
 	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move();
+	            	enemy.move(level);
 	            }
 			}
 			player.getSprite().setRotation(180);
@@ -111,6 +131,9 @@ public class Dindonjon extends Game{
         			enemy.getPosY()*32-camera.position.y+Gdx.graphics.getHeight()/2
         		);
         	enemy.getSprite().draw(batch);
+        	if(enemy.isDead()){
+        		enemy.die();
+        	}
 		}
         
         player.getSprite().draw(batch);

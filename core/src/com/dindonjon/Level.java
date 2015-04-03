@@ -1,6 +1,7 @@
 package com.dindonjon;
 
 import gameElements.Enemy;
+import gameElements.Player;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Level {
 	
 	private ArrayList<Cell> enemyCell;
 	ArrayList<Enemy> enemies;
+	Player player;
 	
 	int startX;
 	int startY;
@@ -64,6 +66,10 @@ public class Level {
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 	}
+	
+	public void setPlayer(Player player){
+		this.player = player;
+	}
 
 	public OrthogonalTiledMapRenderer getTiledMapRenderer() {
 		return mapRenderer;
@@ -75,17 +81,30 @@ public class Level {
 		return cell;
 	}
 	
+	public int getMapHeight(){
+		return map.getProperties().get("height", Integer.class);
+	}
+	
 	public int getMapWidth(){
 		return map.getProperties().get("width", Integer.class);
 	}
 	
 	public boolean isCollidable(int x, int y){
 		Cell cell = tileLayer.getCell(x, tileLayer.getHeight()-y);
-		Object property = cell.getTile().getProperties().get("collidable");
+		//System.out.println(this.getSingleEnemy(x, y));
 		
-		System.out.println(property);
-		
-		return property != null;
+		if(this.isCellFree(x, y) == true){
+			if(cell != null){
+				Object property = cell.getTile().getProperties().get("collidable");
+
+				System.out.println(property);
+				return property != null;
+			}else{
+				return true;
+			}
+		}else{
+			return true;
+		}
 	}
 	
 	public ArrayList<Cell> getEnemyCell(){
@@ -94,6 +113,36 @@ public class Level {
 	
 	public ArrayList<Enemy> getEnemy(){
 		return enemies;
+	}
+	
+	public boolean isCellFree(int posX, int posY){
+		for (Enemy enemy : enemies) {
+			if(enemy.getPosX() == posX && enemy.getPosY() == tileLayer.getHeight()-posY){
+				return false;
+			}
+		}
+		if(this.player.getPosX() == posX && this.player.getPosY() == posY){
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean isEnemy(int posX, int posY){
+		for (Enemy enemy : enemies) {
+			if(enemy.getPosX() == posX && enemy.getPosY() == tileLayer.getHeight()-posY){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Enemy getEnemy(int posX, int posY){
+		for (Enemy enemy : enemies) {
+			if(enemy.getPosX() == posX && enemy.getPosY() == tileLayer.getHeight()-posY){
+				return enemy;
+			}
+		}
+		return null;
 	}
 	
 }

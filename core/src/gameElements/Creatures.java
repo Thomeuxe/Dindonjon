@@ -1,15 +1,17 @@
 package gameElements;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Creatures {
 	
 	private Sprite sprite;
 	
-	private int pv;
+	private float pv;
 	
-	private int totalPv;
+	private float totalPv;
 	
 	private int pa;
 	
@@ -23,6 +25,8 @@ public abstract class Creatures {
 	
 	private int posY;
 	
+	private Sprite lifeBar;
+	
 	public Creatures(int pv, int pa, Texture img){
 		this.pv = pv;
 		this.totalPv = pv;
@@ -32,10 +36,22 @@ public abstract class Creatures {
 		this.orientation = (int) Math.round(Math.random()*4);
 		this.sprite = new Sprite(img);
 		this.sprite.setSize(width, height);
+		
+		this.lifeBar = new Sprite();
+		this.lifeBar.setTexture(new Texture("lifeBar.png"));
+		this.lifeBar.setSize(32, 5);
 	}
 	
 	public void update(){
-		
+		if(this.totalPv == this.pv){
+			this.lifeBar.setAlpha(0);
+			//System.out.println("full");
+		}else{
+			this.lifeBar.setAlpha(1);
+			this.lifeBar.setSize(this.pv/this.totalPv*32, 5);
+			this.lifeBar.setPosition(this.sprite.getX(), this.sprite.getY()+36);
+			//System.out.println(this.pv/this.totalPv);
+		}
 	}
 	
 	public int attack(){
@@ -50,12 +66,16 @@ public abstract class Creatures {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
+	
+	public Sprite getLifeBar(){
+		return lifeBar;
+	}
 
-	public int getPv() {
+	public float getPv() {
 		return pv;
 	}
 
-	public void setPv(int pv) {
+	public void setPv(float pv) {
 		this.pv = pv;
 	}
 
@@ -109,5 +129,7 @@ public abstract class Creatures {
 		this.posX = -1000;
 		this.posY = -1000;
 	}
+	
+	
 	
 }

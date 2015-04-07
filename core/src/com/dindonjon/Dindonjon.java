@@ -18,6 +18,7 @@ import com.dindonjon.screens.GameScreen;
 
 public class Dindonjon extends Game{
 	SpriteBatch batch;
+	SpriteBatch lifeBarBatch;
 	Texture img;
 	Player player;
 	OrthographicCamera camera;
@@ -32,6 +33,8 @@ public class Dindonjon extends Game{
         float h = Gdx.graphics.getHeight();
         
 		batch = new SpriteBatch();
+		lifeBarBatch = new SpriteBatch();
+		
 		img = new Texture("dindon.png");
 
         level = new Level("maps/mapTest.tmx");
@@ -45,8 +48,9 @@ public class Dindonjon extends Game{
         camera.setToOrtho(false,w,h);
         camera.update();
 		
-		player = new Player(10 , 5, img , "John");
+		player = new Player(10 , 1, img , "John");
 		player.getSprite().setPosition(w/2-(player.getSprite().getWidth()/2), h/2-(player.getSprite().getHeight()/2));
+		player.getLifeBar().setPosition(player.getSprite().getX(), player.getSprite().getY()+36);
         
         camera.translate(-w/2+level.startX*32+(player.getSprite().getWidth()/2), -h/2+(level.tileLayer.getHeight()*32-level.startY*32)+(player.getSprite().getHeight()/2));
         player.setPos(level.startX, level.startY);
@@ -62,83 +66,89 @@ public class Dindonjon extends Game{
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
             if(level.isEnemy(player.getPosX(), player.getPosY()-1)){
             	Enemy enemy = level.getEnemy(player.getPosX(), player.getPosY()-1);
-            	enemy.setPv(enemy.getPv()-5);
+            	enemy.setPv(enemy.getPv()-player.getPa());
             }
 			
 			if(!level.isCollidable(player.getPosX(), player.getPosY()-1)){
 	            camera.translate(0, 32);
 	            player.setPosY(player.getPosY()-1);
-	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move(level);
-	            }
 			}
+			
+			for (Enemy enemy : level.getEnemy()) {
+            	enemy.move(level, enemy.getHeuristic(player));
+            }
             
 			player.getSprite().setRotation(90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
         	if(level.isEnemy(player.getPosX()+1, player.getPosY())){
             	Enemy enemy = level.getEnemy(player.getPosX()+1, player.getPosY());
-            	enemy.setPv(enemy.getPv()-5);
+            	enemy.setPv(enemy.getPv()-player.getPa());
             }
         	
 			if(!level.isCollidable(player.getPosX()+1, player.getPosY())){
 	            camera.translate(32, 0);
 	            player.setPosX(player.getPosX()+1);
-	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move(level);
-	            }
 			}
+			
+			for (Enemy enemy : level.getEnemy()) {
+            	enemy.move(level, enemy.getHeuristic(player));
+            }
 			player.getSprite().setRotation(0);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
         	if(level.isEnemy(player.getPosX(), player.getPosY()+1)){
             	Enemy enemy = level.getEnemy(player.getPosX(), player.getPosY()+1);
-            	enemy.setPv(enemy.getPv()-5);
+            	enemy.setPv(enemy.getPv()-player.getPa());
             }
         	
 			if(!level.isCollidable(player.getPosX(), player.getPosY()+1)){
 	            camera.translate(0, -32);
 	            player.setPosY(player.getPosY()+1);
-	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move(level);
-	            }
 			}
+			
+			for (Enemy enemy : level.getEnemy()) {
+            	enemy.move(level, enemy.getHeuristic(player));
+            }
 			player.getSprite().setRotation(-90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
         	if(level.isEnemy(player.getPosX()-1, player.getPosY())){
             	Enemy enemy = level.getEnemy(player.getPosX()-1, player.getPosY());
-            	enemy.setPv(enemy.getPv()-5);
+            	enemy.setPv(enemy.getPv()-player.getPa());
             }
         	
 			if(!level.isCollidable(player.getPosX()-1, player.getPosY())){
 	            camera.translate(-32, 0);
 	            player.setPosX(player.getPosX()-1);
-	            for (Enemy enemy : level.getEnemy()) {
-	            	enemy.move(level);
-	            }
 			}
+			
+			for (Enemy enemy : level.getEnemy()) {
+            	enemy.move(level, enemy.getHeuristic(player));
+            }
 			player.getSprite().setRotation(180);
         }
         
         camera.update();
+        player.update();
 		
         
         level.getTiledMapRenderer().setView(camera);
         level.getTiledMapRenderer().render();
         
         batch.begin();
+        player.getSprite().draw(batch);
+        player.getSprite().setOriginCenter();
+        player.getLifeBar().draw(batch);
         for (Enemy enemy : level.getEnemy()) {
         	enemy.getSprite().setPosition(
         			enemy.getPosX()*32-camera.position.x+Gdx.graphics.getWidth()/2,
         			enemy.getPosY()*32-camera.position.y+Gdx.graphics.getHeight()/2
         		);
+        	enemy.update();
         	enemy.getSprite().draw(batch);
+        	enemy.getLifeBar().draw(batch);
         	if(enemy.isDead()){
         		enemy.die();
         	}
 		}
-        
-        player.getSprite().draw(batch);
-        player.getSprite().setOriginCenter();
-        
         batch.end();
 	}
 }

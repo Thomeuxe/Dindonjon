@@ -75,7 +75,7 @@ public class Dindonjon extends Game{
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player));
+            	enemy.move(level, enemy.getHeuristic(player, level), player);
             }
             
 			player.getSprite().setRotation(90);
@@ -83,6 +83,8 @@ public class Dindonjon extends Game{
         	if(level.isEnemy(player.getPosX()+1, player.getPosY())){
             	Enemy enemy = level.getEnemy(player.getPosX()+1, player.getPosY());
             	enemy.setPv(enemy.getPv()-player.getPa());
+            	System.out.println(player.getPosX() + "__" + player.getPosY());
+            	System.out.println(enemy.getPosX() + "__" + enemy.getPosY());
             }
         	
 			if(!level.isCollidable(player.getPosX()+1, player.getPosY())){
@@ -91,7 +93,7 @@ public class Dindonjon extends Game{
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player));
+            	enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(0);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
@@ -106,7 +108,7 @@ public class Dindonjon extends Game{
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player));
+            	enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(-90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
@@ -121,7 +123,7 @@ public class Dindonjon extends Game{
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player));
+            	enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(180);
         }
@@ -136,7 +138,6 @@ public class Dindonjon extends Game{
         batch.begin();
         player.getSprite().draw(batch);
         player.getSprite().setOriginCenter();
-        player.getLifeBar().draw(batch);
         for (Enemy enemy : level.getEnemy()) {
         	enemy.getSprite().setPosition(
         			enemy.getPosX()*32-camera.position.x+Gdx.graphics.getWidth()/2,
@@ -144,11 +145,15 @@ public class Dindonjon extends Game{
         		);
         	enemy.update();
         	enemy.getSprite().draw(batch);
-        	enemy.getLifeBar().draw(batch);
         	if(enemy.isDead()){
         		enemy.die();
         	}
 		}
+        for (Enemy enemy : level.getEnemy()) {
+        	enemy.getLifeBar().draw(batch);
+        }
+        
+        player.getLifeBar().draw(batch);
         batch.end();
 	}
 }

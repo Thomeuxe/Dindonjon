@@ -94,6 +94,8 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+        compile "com.github.xaguzman:pathfinding:0.2.4"
+        compile "com.github.xaguzman:pathfinding-gdx-bridge:0.2.4"
     }
 }
 

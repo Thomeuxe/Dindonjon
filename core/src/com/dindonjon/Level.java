@@ -16,8 +16,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Level {
 
 	public TiledMap map;
+	public String file;
 	OrthogonalTiledMapRenderer mapRenderer;
-	TiledMapTileLayer tileLayer;
+	public TiledMapTileLayer tileLayer;
 	TiledMapTileLayer metaLayer;
 	
 	private ArrayList<Cell> enemyCell;
@@ -31,6 +32,7 @@ public class Level {
 		map = new TmxMapLoader().load(file);
 		tileLayer = (TiledMapTileLayer) map.getLayers().get("collision");
 		metaLayer = (TiledMapTileLayer) map.getLayers().get("meta");
+		this.file = file;
 		
 		for(int x = 0; x < metaLayer.getWidth();x++){
             for(int y = 0; y < metaLayer.getHeight();y++){
@@ -96,8 +98,6 @@ public class Level {
 		if(this.isCellFree(x, y) == true){
 			if(cell != null){
 				Object property = cell.getTile().getProperties().get("collidable");
-
-				System.out.println(property);
 				return property != null;
 			}else{
 				return true;
@@ -144,5 +144,4 @@ public class Level {
 		}
 		return null;
 	}
-	
 }

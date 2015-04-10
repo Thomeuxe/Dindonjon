@@ -48,7 +48,7 @@ public class Dindonjon extends Game{
         camera.setToOrtho(false,w,h);
         camera.update();
 		
-		player = new Player(10 , 1, img , "John");
+		player = new Player(10 , 5, img , "John");
 		player.getSprite().setPosition(w/2-(player.getSprite().getWidth()/2), h/2-(player.getSprite().getHeight()/2));
 		player.getLifeBar().setPosition(player.getSprite().getX(), player.getSprite().getY()+36);
         

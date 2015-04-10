@@ -122,7 +122,7 @@ public class Level {
 			}
 		}
 		if(this.player.getPosX() == posX && this.player.getPosY() == posY){
-			return false;
+			//return false;
 		}
 		return true;
 	}

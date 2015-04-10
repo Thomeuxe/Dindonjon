@@ -54,9 +54,10 @@ public abstract class Creatures {
 		}
 	}
 	
-	public int attack(){
+	public void attack(Creatures player){
 		double rnd_snd = (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
-		return (int) Math.round(rnd_snd*(this.pa/4)+this.pa);
+		int attack = (int) Math.round(rnd_snd*(this.pa/4)+this.pa);
+		player.setPv(player.getPv() - attack);
 	}
 
 	public Sprite getSprite() {

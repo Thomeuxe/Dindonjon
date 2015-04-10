@@ -32,32 +32,49 @@ public class Enemy extends Creatures {
 			
 			GridCell[][] cells = new GridCell[level.getMapWidth()][level.getMapHeight()];
 			
-			for (int y = level.getMapHeight() - 1; y >= 0; y--) 
+			for (int y = level.getMapHeight() - 1; y >= 0; y--) {
 				for (int x = 0; x < level.getMapWidth(); x++){
 					int invY = level.getMapHeight() - 1 - y;
-					GridCell cell = new GridCell(x, invY, !level.isCollidable(x, y));
-					cells[x][invY] = cell;
+					//GridCell cell = new GridCell(x, invY, !level.isCollidable(x, invY) );
+					//cells[x][invY] = cell;
+					//System.out.println(cell + "___" + !level.isCollidable(x, level.getMapHeight()-(y)) );
 				}
+			}
 			
+			for (int x = 0; x < level.getMapWidth(); x++){
+				for (int y = 0; y < level.getMapHeight(); y++) {
+					int invY = level.getMapHeight() - 1 - y;
+					GridCell cell = new GridCell(x, y, !level.isCollidable(x, y+1) );
+					cells[x][y] = cell;
+					System.out.println(cell + "___" + !level.isCollidable(x, y+1) );
+				}
+			}
 			
 			NavigationGrid<GridCell> navGrid = new NavigationGrid(cells);
 			
 			GridFinderOptions opt = new GridFinderOptions();
 			opt.allowDiagonal = false;
+			opt.isYDown = true;
 			
-			AStarGridFinder<GridCell> finder = new AStarGridFinder(GridCell.class, opt);
-			
-			List<GridCell> pathToEnd = finder.findPath(this.getPosX(), level.getMapHeight()-this.getPosY(), player.getPosX(), player.getPosY(), navGrid);
-			System.out.println("Enemy : "+this.getPosX()+"_"+this.getPosY());
+			AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class, opt);
+			List<GridCell> pathToEnd = finder.findPath(this.getPosX(), level.getMapHeight()-this.getPosY()-1, player.getPosX(), player.getPosY()-1, navGrid);
+			System.out.println("Enemy : "+this.getPosX()+"_"+(this.getPosY()));
 			System.out.println("Dindon : "+player.getPosX()+"_"+player.getPosY());
 			System.out.println(pathToEnd);
 			
-			if(pathToEnd != null){
+			if(pathToEnd != null && pathToEnd.size() != 1){
 				int newPosX = pathToEnd.get(0).x;
-				int newPosY = pathToEnd.get(0).y;
+				int newPosY = level.getMapHeight()-pathToEnd.get(0).y-1;
 				this.setPosX(newPosX);
 				this.setPosY(newPosY);
+				System.out.println("newEnemy : "+newPosX+"_"+newPosY);
 			}
+			
+			if(pathToEnd.size() == 1){
+				this.attack(player);
+			}
+			
+			System.out.println("Enemy : "+this.getPosX()+"_"+(this.getPosY()));
 			
 			//TiledMap map = new NavTmxMapLoader().load("maps/mapTest.tmx");
 

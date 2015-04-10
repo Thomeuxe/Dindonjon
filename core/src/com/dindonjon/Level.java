@@ -144,4 +144,15 @@ public class Level {
 		}
 		return null;
 	}
+	
+	public boolean isFloor(int x, int y){
+		Cell cell = tileLayer.getCell(x, tileLayer.getHeight()-y);
+		
+		if(cell != null){
+			Object property = cell.getTile().getProperties().get("collidable");
+			return property == null;
+		}else{
+			return false;
+		}
+	}
 }

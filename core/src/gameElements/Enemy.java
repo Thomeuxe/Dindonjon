@@ -29,7 +29,6 @@ public class Enemy extends Creatures {
 	public void move(Level level, double heuristic, Creatures player) {
 		if(heuristic <= 10){ //TODO maxSearchDistance
 			
-			
 			GridCell[][] cells = new GridCell[level.getMapWidth()][level.getMapHeight()];
 			
 			for (int y = level.getMapHeight() - 1; y >= 0; y--) {
@@ -70,7 +69,7 @@ public class Enemy extends Creatures {
 				System.out.println("newEnemy : "+newPosX+"_"+newPosY);
 			}
 			
-			if(pathToEnd.size() == 1){
+			if(pathToEnd != null && pathToEnd.size() == 1){
 				this.attack(player);
 			}
 			

@@ -99,12 +99,12 @@
  </layer>
  <layer name="collision" width="35" height="10">
   <data encoding="base64" compression="zlib">
-   eJzjYWBg4BkEmB2IOYGYcRBgfG5hBmIWLJh1ANwCkuPAgpHV89HQLXwMpLkFXxiSGn74woWbAXsa4yUyDElNh9RKuwPpFvR0gi0MsYUfPcKFmmkXW94dCAwA9TAFTA==
+   eJzNk9EKgCAMRRcVLrL//932IsRtm0gb9nCYMpiHq1Yiqj+gCIewAGystX0UIy5YZ7hYTrNyYfJdVmED9mAXVs7WXAo4szH3q4uVT6YLzurl8+Sk9x+9gnLx7iOL5oLvrsFOL4MblwQFRQ==
   </data>
  </layer>
  <layer name="meta" width="35" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFhAA/He0SoKNdIxUMpzAejH4RhOLBAAaTW5ABAAMjAIQ=
+   eJxjYBjaQAAJ0wrw09Et1PIHPcKFWCDAMHjcM9zcQk0/UCtcBKF4uLiFFgAAf98CJA==
   </data>
  </layer>
  <layer name="navigation" width="35" height="10" visible="0">

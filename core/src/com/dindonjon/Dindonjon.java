@@ -35,9 +35,9 @@ public class Dindonjon extends Game{
 		batch = new SpriteBatch();
 		lifeBarBatch = new SpriteBatch();
 		
-		img = new Texture("dindon.png");
+		img = new Texture("newDindon.png");
 
-        level = new Level("maps/mapTest.tmx");
+        level = new Level("maps/newMap.tmx");
         
         //enemies = new ArrayList<Enemy>();
 		
@@ -50,9 +50,9 @@ public class Dindonjon extends Game{
 		
 		player = new Player(10 , 5, img , "John");
 		player.getSprite().setPosition(w/2-(player.getSprite().getWidth()/2), h/2-(player.getSprite().getHeight()/2));
-		player.getLifeBar().setPosition(player.getSprite().getX(), player.getSprite().getY()+36);
+		player.getLifeBar().setPosition(player.getSprite().getX(), player.getSprite().getY()+player.getSprite().getHeight()+4);
         
-        camera.translate(-w/2+level.startX*32+(player.getSprite().getWidth()/2), -h/2+(level.tileLayer.getHeight()*32-level.startY*32)+(player.getSprite().getHeight()/2));
+        camera.translate(-w/2+level.startX*level.tileLayer.getTileWidth()+(player.getSprite().getWidth()/2), -h/2+(level.tileLayer.getHeight()*level.tileLayer.getTileHeight()-level.startY*level.tileLayer.getTileHeight())+(player.getSprite().getHeight()/2));
         player.setPos(level.startX, level.startY);
         level.setPlayer(player);
 	}
@@ -70,12 +70,13 @@ public class Dindonjon extends Game{
             }
 			
 			if(!level.isCollidable(player.getPosX(), player.getPosY()-1)){
-	            camera.translate(0, 32);
+	            camera.translate(0, level.tileLayer.getTileHeight());
 	            player.setPosY(player.getPosY()-1);
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player, level), player);
+				if(!enemy.isDead())
+					enemy.move(level, enemy.getHeuristic(player, level), player);
             }
             
 			player.getSprite().setRotation(90);
@@ -88,12 +89,13 @@ public class Dindonjon extends Game{
             }
         	
 			if(!level.isCollidable(player.getPosX()+1, player.getPosY())){
-	            camera.translate(32, 0);
+	            camera.translate(level.tileLayer.getTileWidth(), 0);
 	            player.setPosX(player.getPosX()+1);
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player, level), player);
+				if(!enemy.isDead())
+					enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(0);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
@@ -103,12 +105,13 @@ public class Dindonjon extends Game{
             }
         	
 			if(!level.isCollidable(player.getPosX(), player.getPosY()+1)){
-	            camera.translate(0, -32);
+	            camera.translate(0, -level.tileLayer.getTileHeight());
 	            player.setPosY(player.getPosY()+1);
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player, level), player);
+				if(!enemy.isDead())
+					enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(-90);
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
@@ -118,12 +121,13 @@ public class Dindonjon extends Game{
             }
         	
 			if(!level.isCollidable(player.getPosX()-1, player.getPosY())){
-	            camera.translate(-32, 0);
+	            camera.translate(-level.tileLayer.getTileWidth(), 0);
 	            player.setPosX(player.getPosX()-1);
 			}
 			
 			for (Enemy enemy : level.getEnemy()) {
-            	enemy.move(level, enemy.getHeuristic(player, level), player);
+				if(!enemy.isDead())
+					enemy.move(level, enemy.getHeuristic(player, level), player);
             }
 			player.getSprite().setRotation(180);
         }
@@ -140,8 +144,8 @@ public class Dindonjon extends Game{
         player.getSprite().setOriginCenter();
         for (Enemy enemy : level.getEnemy()) {
         	enemy.getSprite().setPosition(
-        			enemy.getPosX()*32-camera.position.x+Gdx.graphics.getWidth()/2,
-        			enemy.getPosY()*32-camera.position.y+Gdx.graphics.getHeight()/2
+        			enemy.getPosX()*level.tileLayer.getTileWidth()-camera.position.x+Gdx.graphics.getWidth()/2,
+        			enemy.getPosY()*level.tileLayer.getTileHeight()-camera.position.y+Gdx.graphics.getHeight()/2
         		);
         	enemy.update();
         	enemy.getSprite().draw(batch);

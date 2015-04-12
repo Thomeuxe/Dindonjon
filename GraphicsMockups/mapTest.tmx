@@ -104,7 +104,7 @@
  </layer>
  <layer name="meta" width="35" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBjaQAAJ0wrw09Et1PIHPcKFWCDAMHjcM9zcQk0/UCtcBKF4uLiFFgAAf98CJA==
+   eJxjYBjeQIAKZvBTwQxiATXcOwqGBqBGXA/G9CIIxfQAhPxPT7eQAgBPowCk
   </data>
  </layer>
  <layer name="navigation" width="35" height="10" visible="0">

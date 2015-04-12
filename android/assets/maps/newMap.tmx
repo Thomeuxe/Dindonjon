@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="meta" tilewidth="32" tileheight="32">
+  <image source="meta.png" width="96" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="start" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="spawn_enemy" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="4" name="floor" tilewidth="32" tileheight="32">
+  <image source="fences.png" width="96" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="21" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztw8EJAAAMA6F7Zf+RO0dBwVVTVfX9A9hIDsU=
+  </data>
+ </layer>
+ <layer name="collision" width="21" height="30">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQxmwkig+0GayAzELEHPgEEeWI9ZMQjQ6e7CYycUA8S83Fc3Ep5ZUM2HuQ8ccJJiJzY+41BFSMwpGwSgYBaOAMAAAfxEBKQ==
+  </data>
+ </layer>
+ <layer name="meta" width="21" height="30">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DoA0Yc4kx0dcUoGAWjYBSMglEwsAAAHtgABA==
+  </data>
+ </layer>
+</map>

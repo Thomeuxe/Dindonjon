@@ -100,7 +100,7 @@ public class Level {
 				Object property = cell.getTile().getProperties().get("collidable");
 				return property != null;
 			}else{
-				return true;
+				return false;
 			}
 		}else{
 			return true;

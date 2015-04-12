@@ -4,7 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{7BF9D26C-3037-46EA-8079-FE980E1C91D7}" Name="UML_Dindonjon" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="UML_Dindonjon.moo"/>
+		<Model Expanded="Yes" ID="{7BF9D26C-3037-46EA-8079-FE980E1C91D7}" Loaded="No" Name="UML_Dindonjon" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="UML_Dindonjon.moo"/>
+		<Model Expanded="Yes" ID="{D5C8324D-7B39-46E4-96E1-3A20FAE8016D}" Name="ModeleOrienteObjet_1" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="/Print/Gobelins/images/events-kaleido/diagramme_de_classe.moo"/>
 	</Local>
 	<BrowserModule Name="Référentiel"/>
 </Workspace>

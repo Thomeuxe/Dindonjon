@@ -1,7 +1,5 @@
 package com.dindonjon;
 
-import java.util.ArrayList;
-
 import gameElements.Enemy;
 import gameElements.Player;
 
@@ -11,8 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.Input;
 import com.dindonjon.screens.GameScreen;
 
@@ -35,7 +31,7 @@ public class Dindonjon extends Game{
 		batch = new SpriteBatch();
 		lifeBarBatch = new SpriteBatch();
 		
-		img = new Texture("newDindon.png");
+		img = new Texture("dindon.png");
 
         level = new Level("maps/newMap.tmx");
         
@@ -84,8 +80,6 @@ public class Dindonjon extends Game{
         	if(level.isEnemy(player.getPosX()+1, player.getPosY())){
             	Enemy enemy = level.getEnemy(player.getPosX()+1, player.getPosY());
             	enemy.setPv(enemy.getPv()-player.getPa());
-            	System.out.println(player.getPosX() + "__" + player.getPosY());
-            	System.out.println(enemy.getPosX() + "__" + enemy.getPosY());
             }
         	
 			if(!level.isCollidable(player.getPosX()+1, player.getPosY())){
@@ -131,6 +125,10 @@ public class Dindonjon extends Game{
             }
 			player.getSprite().setRotation(180);
         }
+		
+		if(level.isEnd(player.getPosX(), player.getPosY())){
+			Gdx.app.exit();
+		}
         
         camera.update();
         player.update();

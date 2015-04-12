@@ -6,7 +6,6 @@ import gameElements.Player;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -151,6 +150,17 @@ public class Level {
 		if(cell != null){
 			Object property = cell.getTile().getProperties().get("collidable");
 			return property == null;
+		}else{
+			return false;
+		}
+	}
+	
+	public boolean isEnd(int x, int y){
+		Cell cell = metaLayer.getCell(x, tileLayer.getHeight()-y);
+		
+		if(cell != null){
+			Object property = cell.getTile().getProperties().get("end");
+			return !(property == null);
 		}else{
 			return false;
 		}

@@ -1,17 +1,15 @@
 package gameElements;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Creatures {
 	
-	private Sprite sprite;
+	protected Sprite sprite;
 	
-	private float pv;
+	protected float pv;
 	
-	private float totalPv;
+	protected float totalPv;
 	
 	private int pa;
 	
@@ -25,7 +23,7 @@ public abstract class Creatures {
 	
 	private int posY;
 	
-	private Sprite lifeBar;
+	protected Sprite lifeBar;
 	
 	public Creatures(int pv, int pa, Texture img){
 		this.pv = pv;

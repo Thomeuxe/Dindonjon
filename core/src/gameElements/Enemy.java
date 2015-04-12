@@ -1,19 +1,13 @@
 package gameElements;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.xguzm.pathfinding.gdxbridge.NavTmxMapLoader;
-import org.xguzm.pathfinding.gdxbridge.NavigationTiledMapLayer;
 import org.xguzm.pathfinding.grid.GridCell;
 import org.xguzm.pathfinding.grid.NavigationGrid;
 import org.xguzm.pathfinding.grid.finders.AStarGridFinder;
 import org.xguzm.pathfinding.grid.finders.GridFinderOptions;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.dindonjon.Level;
 
@@ -23,33 +17,20 @@ public class Enemy extends Creatures {
 
 	public Enemy(int pv, int pa, Texture img) {
 		super(pv, pa, img);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void move(Level level, double heuristic, Creatures player) {
-		if(heuristic <= 10){ //TODO maxSearchDistance
-			
+		if(heuristic <= 10){
 			GridCell[][] cells = new GridCell[level.getMapWidth()][level.getMapHeight()];
-			
-			for (int y = level.getMapHeight() - 1; y >= 0; y--) {
-				for (int x = 0; x < level.getMapWidth(); x++){
-					int invY = level.getMapHeight() - 1 - y;
-					//GridCell cell = new GridCell(x, invY, !level.isCollidable(x, invY) );
-					//cells[x][invY] = cell;
-					//System.out.println(cell + "___" + !level.isCollidable(x, level.getMapHeight()-(y)) );
-				}
-			}
 			
 			for (int x = 0; x < level.getMapWidth(); x++){
 				for (int y = 0; y < level.getMapHeight(); y++) {
-					int invY = level.getMapHeight() - 1 - y;
 					GridCell cell = new GridCell(x, y, !level.isCollidable(x, y+1) );
 					cells[x][y] = cell;
-					System.out.println(cell + "___" + !level.isCollidable(x, y+1) );
 				}
 			}
 			
-			NavigationGrid<GridCell> navGrid = new NavigationGrid(cells);
+			NavigationGrid<GridCell> navGrid = new NavigationGrid<GridCell>(cells);
 			
 			GridFinderOptions opt = new GridFinderOptions();
 			opt.allowDiagonal = false;
@@ -57,39 +38,31 @@ public class Enemy extends Creatures {
 			
 			AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class, opt);
 			List<GridCell> pathToEnd = finder.findPath(this.getPosX(), level.getMapHeight()-this.getPosY()-1, player.getPosX(), player.getPosY()-1, navGrid);
-			System.out.println("Enemy : "+this.getPosX()+"_"+(this.getPosY()));
-			System.out.println("Dindon : "+player.getPosX()+"_"+player.getPosY());
-			System.out.println(pathToEnd);
 			
 			if(pathToEnd != null && pathToEnd.size() != 1){
 				int newPosX = pathToEnd.get(0).x;
 				int newPosY = level.getMapHeight()-pathToEnd.get(0).y-1;
+				
+				if(newPosX > this.getPosX())
+					this.getSprite().setRotation(0);
+				if(newPosX < this.getPosX())
+					this.getSprite().setRotation(180);
+				if(newPosY > this.getPosY())
+					this.getSprite().setRotation(90);
+				if(newPosY < this.getPosY())
+					this.getSprite().setRotation(-90);
+				
 				this.setPosX(newPosX);
 				this.setPosY(newPosY);
-				System.out.println("newEnemy : "+newPosX+"_"+newPosY);
 			}
 			
 			if(pathToEnd != null && pathToEnd.size() == 1){
 				this.attack(player);
 			}
 			
-			System.out.println("Enemy : "+this.getPosX()+"_"+(this.getPosY()));
-			
-			//TiledMap map = new NavTmxMapLoader().load("maps/mapTest.tmx");
-
-			//AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class);
-			//MapLayer layer = map.getLayers().get("navigation");
-			//NavigationTiledMapLayer nav = (NavigationTiledMapLayer) layer;
-			//List<GridCell> path = finder.findPath(this.getPosX(), this.getPosY(), player.getPosX(), player.getPosY(), nav);
-			
-			//for(GridCell c : path){
-				//Gdx.app.log("Map Loading Test - path: ", c.toString());
-			//}
-			
 		}else{
 			new MathUtils();
 			int rand = MathUtils.random(4);
-			//System.out.println(!level.isCollidable(this.getPosX(), this.getPosY()-1));
 			
 			if(rand == 0){
 				if(!level.isCollidable(this.getPosX(), level.getMapHeight()-(this.getPosY()-1))){

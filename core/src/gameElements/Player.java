@@ -1,25 +1,30 @@
 package gameElements;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Player extends Creatures {
-
-	private String name;
-	
-	private int nbWall;
 	
 	public Player(int pv, int pa, Texture img, String name) {
 		super(pv, pa, img);
-
-		this.name = name;
-		this.nbWall = 5;
 	}
 
 	public void move(int x, int y) {
 		
+	}
+	
+	public void update(){
+		if(this.totalPv == this.pv){
+			this.lifeBar.setAlpha(0);
+			//System.out.println("full");
+		}else if(this.pv < this.totalPv && this.pv > 0){
+			this.lifeBar.setAlpha(1);
+			this.lifeBar.setSize(this.pv/this.totalPv*32, 5);
+			this.lifeBar.setPosition(this.sprite.getX(), this.sprite.getY()+36);
+			//System.out.println(this.pv/this.totalPv);
+		}else{
+			Gdx.app.exit();
+		}
 	}
 	
 }
